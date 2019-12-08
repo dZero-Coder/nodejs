@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+
+/*
+  app, debug(콘솔에 로그를 남기는 모듈), http 모듈을 가져옴
+*/
+var app = require('../app');
+var debug = require('debug')('learn-express:server');
+var http = require('http');
+
+/*
+  app.set('port', port) : 서버가 실행될 포트 설정하는 메소드
+  process.env 객체에 PORT 속성이 있으면 그 값 사용 없으면 3000번 포트 사용
+*/
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/*
+  http.createServer에 불러온 app모듈을 넣어줌 (app 모듈이 createServer 메서드의 콜백 함수 역할을 수행)
+*/
+var server = http.createServer(app);
+
+/*
+  포트를 연결하고 서버를 실행
+*/
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
