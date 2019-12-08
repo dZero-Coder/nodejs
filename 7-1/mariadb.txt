@@ -1,0 +1,24 @@
+mariadb 연동
+1. express learn-sequelize --view=pug
+- 새 프로젝트 생성 및 시퀄라이즈 설치
+
+2. npm -i
+- 해당 프로젝트에 npm 패키지 설치
+
+3. npm i sequelize mysql2 (mariadb인지 mysql2인지 확인 필요)
+- 시퀄라이즈에 필요한 sequelize, mysql2(mariadb) 패키지 설치
+
+4. npm i -g sequelize-cli
+- 시퀄라이즈 커맨드 사용을 위한 sequelize-cli를 전역 설치
+
+5. sequelize init
+- sequelize관련 config 파일을 자동으로 생성
+(config, models, migrations, seeders 폴더가 생성됨)
+
+6. index.js의 필요없는 부분을 제거하고 새로운 코드 입력
+
+7. app.js에 sequelize 추가
+
+8. models 구성
+
+9. config/config.json의 db정보 입력 (process.env.NODE_ENV가 development인 경우 development가 적용됨)
